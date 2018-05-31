@@ -1,0 +1,4 @@
+fr\gtm\formation\bibliotheque\repository\LivreRepository.class
+fr\gtm\formation\bibliotheque\service\LivreService.class
+fr\gtm\formation\bibliotheque\controller\IndexController.class
+fr\gtm\formation\bibliotheque\domain\Livre.class

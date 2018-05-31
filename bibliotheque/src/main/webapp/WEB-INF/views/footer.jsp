@@ -13,7 +13,7 @@
 	<div id="footer"
 		style="background: linear-gradient(to right, #336699 0%, #66ffff 100%); color: black; padding: 20px">
 	
-		<p style="text-align:right;font-family: verdana"><b>Designed and developped by Ines HEDI</b></p>
+		<p style="text-align:center;font-family: verdana"><b>Designed and developped by Ines HEDI</b></p>
 	</div>
 
 </body>

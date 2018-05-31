@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- deplacement du fichier dans web-inf car spring l'attent la -->
-<!-- ajout de ce fichier en faisont dans src/main/resources clic droit ->new 
-	->other -> xmlFile -> Application-servlet.xml -> -->
-
-<!-- tous le conteneur de bean spring -->
-
-<!-- https://docs.spring.io/spring/docs/5.0.5.RELEASE/spring-framework-reference/core.html#spring-core -->
 <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd       
-   		http://www.springframework.org/schema/context 
-		http://www.springframework.org/schema/context/spring-context.xsd ">
-	<!-- ajout des information du controler -->
-
+				http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/context
+				http://www.springframework.org/schema/context/spring-context.xsd
+				http://www.springframework.org/schema/mvc
+				http://www.springframework.org/schema/mvc/spring-mvc.xsd
+				http://www.springframework.org/schema/data/jpa
+				http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<!-- ajout du context -->
-	<context:component-scan base-package="fr.gtm.bibliotheque.controller" />
+	<context:component-scan base-package="fr.gtm.formation.bibliotheque" />
 	
-	<!--  pour dire à spring que toute les demandes commencent par js ou css ou images sont des demande static et donc qu'il n'y a pas de traitement a effectuer -->
-	<mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
-	<mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
-	<mvc:resources location="/images/" mapping="/images/**"></mvc:resources>
+	
+										
+	<mvc:annotation-driven />
+	<mvc:resources location="/js/" mapping="/js/**" />
+	<mvc:resources location="/css/" mapping="/css/**" />
 
 	<!-- bean metier basique -->
-
 	<!-- ajout constructeur pour les classes domaines -->
-	<bean id="livre" class="fr.gtm.bibliotheque.domain.Livre">
+
+	 <bean id="livre" class="fr.gtm.formation.bibliotheque.domain.Livre">
 
 		<!-- on met les constructeur-arg dans l'ordre du constructeur -->
 		<constructor-arg type="Integer" value="0" />
@@ -46,26 +44,34 @@
 			de Seger, ou nombres de Ming Antu." />
 	</bean>
 
-	<!-- beans de configuration spring: object premettant de resoudre les noms 
-		de vues (modeland vew) en page jsp -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		id="viewResolver">
 
-	<!-- controle shift t pour voir les -->
+		<property value="/WEB-INF/views/" name="prefix" />
 
-	<!-- classe qui sert à resoudre les vues ( aller cherche les vue qui sont 
-		cacher dans le dossier web-inf qui est un ficheir proteger -->
+		<property value=".jsp" name="suffix" />
 
-	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<!-- racine du fichier -->
-		<property name="prefix" value="/WEB-INF/views/"></property>
-		<!-- fin du fichier -->
-		<property name="suffix" value=".jsp"></property>
-		<!-- moteur de classe classe jsltview pour tous les classe de jstl -->
-		<property name="viewClass"
-			value="org.springframework.web.servlet.view.JstlView"></property>
+		<property value="org.springframework.web.servlet.view.JstlView"
+			name="viewClass" />
+
 	</bean>
 
+	<!-- JPA configuration -->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="bibliotheque" />
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	
+		<jpa:repositories base-package="fr.gtm.formation.bibliotheque.repository" />
 </beans>
 
 
 
+
+
+	
